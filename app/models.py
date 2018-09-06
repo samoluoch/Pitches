@@ -19,6 +19,12 @@ class New_Pitch:
         self.statement = statement
         self.vote_count = vote_count
 
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+        
+
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
     '''
