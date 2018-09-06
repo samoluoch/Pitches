@@ -50,5 +50,9 @@ class Pitch(db.Model):
     vote_count = db.Column(db.String)
     date_created = db.Column(db.Date, default=datetime.now)
 
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 
