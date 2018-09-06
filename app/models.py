@@ -19,11 +19,11 @@ class Pitch:
         self.statement = statement
         self.vote_count = vote_count
 
-class User(UserMixin, db.Model):
+class User(UserMixin,db.Model):
+    __tablename__ = 'users'
     '''
     Class User that defines the columns of the user user database in the database
     '''
-    __tablename__ = 'users'
     
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255), index = True)
