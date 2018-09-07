@@ -5,13 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_uploads import UploadSet,configure_uploads,IMAGES
 from flask_mail import Mail
-from flask_simplemde import SimpleMDE
+# from flask_simplemde import SimpleMDE
 
 # Initialaizing Flask extensions
-bootstrap = Bootstrap
-db = SQLAlchemy
+bootstrap = Bootstrap()
+db = SQLAlchemy()
 mail = Mail()
-simple = SimpleMDE()
+# simple = SimpleMDE()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -36,8 +36,5 @@ def create_app(config_name):
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    # Setting config
-    from .request import configure_request
-    configure_request(app)
 
     return app
