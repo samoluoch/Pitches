@@ -33,6 +33,7 @@ def pitch(id):
     comment =  Comments.get_comments(id)
     
     return render_template('pitch.html', title=title)
+    
 
 
 
