@@ -19,9 +19,12 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255), index = True)
     email = db.Column(db.String(255), unique = True, index = True)
-    role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
     password_hash = db.Column(db.String(255))
     reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
+
+    def __repr__(self):
+        return f'User {self.username}'
 
 class Pitch(db.Model):
     '''
@@ -39,6 +42,9 @@ class Pitch(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def __repr__(self):
+        return f'Pitch {self.title}'
+
 
 class Category(db.Model):
     '''
@@ -55,6 +61,8 @@ class Category(db.Model):
         db.session.add()
         db.session.commit()
 
+    def __repr__(self):
+        return f'Category {self.name}'
 
 
 # class New_Pitch:
