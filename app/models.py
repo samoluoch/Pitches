@@ -34,7 +34,7 @@ class Pitch(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     title = db.Column(db.String(255), index = True)
-    statement = db.Column(db.String(255))
+    comments = db.Column(db.String(255))
     vote_count = db.Column(db.String)
     date_created = db.Column(db.Date, default=datetime.now)
 
