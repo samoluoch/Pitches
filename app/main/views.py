@@ -1,8 +1,10 @@
-from flask import render_template
+from flask import render_template, request, redirect, url_for, abort
 from . import main
 from .. import db
-from ..models import Pitch
+from ..models import User, Category, Pitch, Comment
 from flask_login import login_required
+from flask_login import login_required, current_user
+from .forms import CommentsForm,PitchForm
 
 # Views
 @main.route('/')

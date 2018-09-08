@@ -51,9 +51,9 @@
 
 
 
-    {% macro displayCategory(my_categories) %} 
+    {% macro displayCategory(category) %} 
 
-    {% for category in my_category %}
+    {% for category in category %}
     <div class="col-md-12 pitches">
         <p>
             <a href="/user/{{category.user.username}}&{{category.user.id}}">{{category.user.username}}</a>

@@ -25,6 +25,7 @@ class User(UserMixin,db.Model):
     comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
 
 
+
     @property
     def password(self):
         raise AttributeError('This password is inaccessible')
@@ -57,6 +58,7 @@ class Pitch(db.Model):
     comments = db.Column(db.String(255))
     vote_count = db.Column(db.String)
     date_created = db.Column(db.Date, default=datetime.now)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
 
     '''
     Function that saves new;y created pitches
@@ -85,7 +87,8 @@ class Category(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     details = db.Column(db.String(255))
     name = db.Column(db.String(255))
-    pitch = db.relationship("Pitch", backref = "category", lazy="dynamic")
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
+    pitch = db.relationship("Pitch", backref = "category")
 
     '''
     Function to save new pitch category
@@ -104,7 +107,7 @@ class Category(db.Model):
         return categories
 
 
-class Comments(db.Model):
+class Comment(db.Model):
     '''
     Class Comments for the Comments column
     '''
@@ -115,3 +118,4 @@ class Comments(db.Model):
     comments = db.Column(db.String(255))
     date_created = db.Column(db.Date, default=datetime.now)
     pitch_id = db.Column(db.Integer, db.ForeignKey("pitch.id"))
+    

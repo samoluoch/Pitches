@@ -28,5 +28,5 @@ def make_shell_context():
 
 
 if __name__ == '__main__':
-    # app.secret_key='foobar'
+    app.secret_key='foobar'
     manager.run()
