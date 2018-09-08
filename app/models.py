@@ -22,11 +22,12 @@ class User(UserMixin,db.Model):
     pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
-    reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
+    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+
 
     @property
     def password(self):
-        raise AttributeError('You cannnot read the password attribute')
+        raise AttributeError('This password is inaccessible')
 
     @password.setter
     def password(self, password):
@@ -39,10 +40,16 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
+    pass_secure = db.Column(db.String(255))
+
+    
+
 class Pitch(db.Model):
     '''
     Class pitch that defines the tables in the pitch database
     '''
+
+    pitch_list = []
     __tablename__ = 'pitch'
 
     id = db.Column(db.Integer,primary_key = True)
@@ -51,12 +58,22 @@ class Pitch(db.Model):
     vote_count = db.Column(db.String)
     date_created = db.Column(db.Date, default=datetime.now)
 
+    '''
+    Function that saves new;y created pitches
+    '''
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()
 
-    def __repr__(self):
-        return f'Pitch {self.title}'
+    '''
+    Class method that shows a list of pitches
+    '''
+    @classmethod
+    def get_pitch(cls, id):
+        pitches = Pitch.query.order_by(Pitch.date_posted.desc()).filter_by(category_id=id).all()
+        return pitches
+
+
 
 
 class Category(db.Model):
@@ -70,24 +87,31 @@ class Category(db.Model):
     name = db.Column(db.String(255))
     pitch = db.relationship("Pitch", backref = "category", lazy="dynamic")
 
+    '''
+    Function to save new pitch category
+    '''
     def save_category(self):
-        db.session.add()
+        db.session.add(self)
         db.session.commit()
 
-    def __repr__(self):
-        return f'Category {self.name}'
+    
+    '''
+    Class method that returns the categories of pitches by querying the database
+    '''
+    @classmethod
+    def get_categories(cls):
+        categories = Category.query.all()
+        return categories
 
 
-# class New_Pitch:
-#     '''
-#     Class pitch that defines the structure of the Pitch Objcet
-#     '''
-#     def __init__(self, id, title, statement, vote_count):
-#         self.id = id
-#         self.title = title
-#         self.statement = statement
-#         self.vote_count = vote_count
+class Comments(db.Model):
+    '''
+    Class Comments for the Comments column
+    '''
+    __tablename__ = 'comments'
 
-#     def save_pitch(self):
-#         db.session.add(self)
-#         db.session.commit()
+    id = db.Column(db.Integer,primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    comments = db.Column(db.String(255))
+    date_created = db.Column(db.Date, default=datetime.now)
+    pitch_id = db.Column(db.Integer, db.ForeignKey("pitch.id"))
