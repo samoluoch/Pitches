@@ -6,13 +6,14 @@ app = create_app('development')
 
 manager = Manager(app)
 manager.add_command('server',Server)
+pass_secure  = db.Column(db.String(255))
 
 migrate = Migrate(app,db)
 manager.add_command('db', MigrateCommand)
 # @manager.add_command
 # def test():
 #     '''
-#     Function that runs the unit test
+#     Function that runs the unittest
 #     '''
 #     import unittest
 #     tests = unittest.TestLoader().discover('tests')
@@ -22,10 +23,6 @@ manager.add_command('db', MigrateCommand)
 @manager.shell
 def make_shell_context():
     return dict(app=app, db=db, User=User)
-
-
-
-
 
 if __name__ == '__main__':
     manager.run()
