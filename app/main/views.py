@@ -55,6 +55,37 @@ def new_comment(id):
     title = f'{pitch.title} comment'
     return render_template('new_comment.html',title = title, comment_form=form, pitch=pitch)
 
+
+
+@main.route('/category/pitch/new/', methods=['GET', 'POST'])
+def new_pitch():
+    '''
+    Function that validates the Pitch form
+    '''
+    form = PitchForm()
+
+    if form.validate_on_submit():
+        actual_pitch = form.pitch.data
+        new_pitch = Pitches(actual_pitch=actual_pitch,user_id=current_user.id,comment=comment)
+        new_pitch.save_pitch()
+        return redirect(url_for('main.new_pitch'))
+    pitches = Pitches.query.all()
+
+@main.route('/category/<int:id>')
+def category(id):
+    '''
+    View function that returns a list of pitches when the user selects a given category of pitches
+    '''
+
+    category = Category.query.get(id)
+
+    if category is None:
+        abort(404)
+
+    pitch = Pitch.get_pitches(id)
+    return render_template('category.html', category=category, pitch=pitch)
+
+    return render_template('new_pitch.html', pitch_form=form, category=category, pitches = pitches)
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -63,6 +94,7 @@ def profile(uname):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
+
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
