@@ -19,10 +19,10 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255), index = True)
     email = db.Column(db.String(255), unique = True, index = True)
-    pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
-    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+    pitch = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
+    user_id = db.relationship('Comment',backref = 'comment',lazy = "dynamic")
 
 
 
@@ -54,57 +54,31 @@ class Pitch(db.Model):
     __tablename__ = 'pitch'
 
     id = db.Column(db.Integer,primary_key = True)
-    title = db.Column(db.String(255), index = True)
-    comments = db.Column(db.String(255))
+    actual_pitch = db.Column(db.String(255))
     vote_count = db.Column(db.String)
     date_created = db.Column(db.Date, default=datetime.now)
+    category = db.Column(db.String(255))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    pitch = db.relationship('Comment',backref = 'pitch',lazy = "dynamic")
+
 
     '''
-    Function that saves new;y created pitches
+    Function that saves new created pitches
     '''
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()
 
-    '''
-    Class method that shows a list of pitches
-    '''
-    @classmethod
-    def get_pitch(cls, id):
-        pitches = Pitch.query.order_by(Pitch.date_posted.desc()).filter_by(category_id=id).all()
-        return pitches
+    # '''
+    # Class method that shows a list of pitches
+    # '''
+    # @classmethod
+    # def get_pitch(cls, id):
+    #     pitch = Pitch.query.order_by(Pitch.date_posted.desc()).filter_by(category_id=id).all()
+    #     return pitch
 
-
-
-
-class Category(db.Model):
-    '''
-    Class that defines a table for the different pitch categories
-    '''
-    __tablename__ = 'category'
-
-    id = db.Column(db.Integer,primary_key = True)
-    details = db.Column(db.String(255))
-    name = db.Column(db.String(255))
-    pitch_id = db.Column(db.Integer,db.ForeignKey('pitch.id'))
-    pitch = db.relationship("Pitch", backref = "category")
-
-    '''
-    Function to save new pitch category
-    '''
-    def save_category(self):
-        db.session.add(self)
-        db.session.commit()
 
     
-    '''
-    Class method that returns the categories of pitches by querying the database
-    '''
-    @classmethod
-    def get_categories(cls):
-        categories = Category.query.all()
-        return categories
 
 
 class Comment(db.Model):
