@@ -1,4 +1,4 @@
-export SECRET_KEY='foobar'
+export SECRET_KEY=foobar
 export MAIL_USERNAME=samoluoch.codes@gmail.com
 export MAIL_PASSWORD=muksammuksam
 
