@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from .forms import CommentsForm,PitchForm
 
 # Views
-@main.route('/')
+@main.route('/',methods=['GET','POST'])
 def index():
     '''
     View page function that returns the pitch titles on the index page
