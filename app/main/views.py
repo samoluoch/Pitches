@@ -12,14 +12,16 @@ def index():
     '''
     View page function that returns the pitch titles on the index page
     '''
-    # interviews = Pitch.query.get('interviews)
-    # inspirational = get_pitch('inspirational')
-    # general = get_pitch('general')
+    form = PitchForm()
 
-
-
-    title = 'Welcome to the Pitch Page'
-    return render_template('index.html', title=title)
+    if form.validate_on_submit():
+        new_pitch = Pitch(actual_pitch=form.pitch.data,category=form.category.data, user_id=current_user.id)
+        new_pitch.save_pitch()
+        flash('Pitch successfully saved')
+    pitch = Pitch.query.filter_by(category='technology')
+    
+    pickuplines = Pitch.query.filter_by(category='pickuplines')
+    return render_template('pitch.html',title = 'new_pitch', pitch_form=form, pitch=pitch,pickuplines=pickuplines)
 
 # @main.route('/pitch')
 # def pitch():
