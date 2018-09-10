@@ -1,0 +1,2 @@
+Hello {{user.username}}
+Welcome to PITCH YOUR PITCH. You can  now Pitch your Pitch
