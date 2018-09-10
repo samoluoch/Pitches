@@ -22,7 +22,7 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
     pitch = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
-    user_id = db.relationship('Comment',backref = 'comment',lazy = "dynamic")
+    user_id = db.relationship('Comment',backref = 'user',lazy = "dynamic")
 
 
 
