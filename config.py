@@ -15,9 +15,9 @@ class Config:
     # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sam:sam123@localhost/pitches'
 
 
-    @staticmethod
-    def init_app(app):
-        pass
+    # @staticmethod
+    # def init_app(app):
+    #     pass
 
 
 class ProdConfig(Config):
@@ -28,7 +28,7 @@ class ProdConfig(Config):
         Config: The parent configuration class with the general config settings
     '''
    
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("HEROKU_POSTGRESQL_COPPER_URL")
     
 
 
