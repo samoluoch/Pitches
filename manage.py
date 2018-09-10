@@ -7,7 +7,7 @@ app = create_app('production')
 
 manager = Manager(app)
 manager.add_command('server',Server)
-pass_secure  = db.Column(db.String(255))
+# pass_secure  = db.Column(db.String(255))
 
 migrate = Migrate(app,db)
 manager.add_command('db', MigrateCommand)
@@ -29,5 +29,5 @@ def make_shell_context():
 
 
 if __name__ == '__main__':
-    app.secret_key='foobar'
+    # app.secret_key='foobar'
     manager.run()
