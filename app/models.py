@@ -41,7 +41,7 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
-    pass_secure = db.Column(db.String(255))
+    # pass_secure = db.Column(db.String(255))
 
     
 
